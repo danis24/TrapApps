@@ -10,16 +10,15 @@ branches:
    - master #-> Staging Server
    - develop #-> DevServer
 
-# Sebelum melakukan atau eksekusi script
-# install kebutuhan OS. ext: mod-php dll.
-before_install:
-  - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-  - chmod +x ./kubectl
-  - sudo mv ./kubectl /usr/local/bin/kubectl
-
 # Pre Eksekution
-# testing dll.
+
+# build
 before_script:
+  - cp .env.travis .env
+  - composer install --no-interaction
+  - php artisan key:generate
 
 # Main Execution
+# jalan testing
 script:
+  - ./vendor/bin/phpunit
